@@ -41,6 +41,14 @@ function exec(inData, isTest) {
 		return Banana.Converter.arrayToTsv(transactions);
 	}
 
+	// Format 2
+	var CAFormat2 = new CreditAgricoleFormat2();
+	transactionsData = CAFormat2.getFormattedData(transactions, importUtilities);
+	if (CAFormat2.match(transactionsData)) {
+		transactions = CAFormat2.convert(transactionsData);
+		return Banana.Converter.arrayToTsv(transactions);
+	}
+
 	importUtilities.getUnknownFormatError();
 
 	return "";
@@ -170,9 +178,9 @@ function CreditAgricoleFormat2() {
       mappedLine.push(this.getDescription(transaction));
       if (transaction["Amount"].substring(0, 1) === "-") {
          mappedLine.push("");
-         mappedLine.push(Banana.Converter.toInternalNumberFormat(transaction["Amount"].substring(1), '.'));
+         mappedLine.push(Banana.Converter.toInternalNumberFormat(transaction["Amount"].substring(1), ','));
       } else {
-         mappedLine.push(Banana.Converter.toInternalNumberFormat(transaction["Amount"], '.'));
+         mappedLine.push(Banana.Converter.toInternalNumberFormat(transaction["Amount"], ','));
          mappedLine.push("");
       }     
        
