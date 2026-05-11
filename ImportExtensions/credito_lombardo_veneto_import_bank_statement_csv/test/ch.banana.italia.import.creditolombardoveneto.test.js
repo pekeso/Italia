@@ -24,8 +24,8 @@
 // @docproperties = 
 // @outputformat = none
 // @inputdataform = none
-// @includejs = ../ch.banana.italia.import.creditolombardoveneto/import.utilities.js
-// @includejs = ../ch.banana.italia.import.creditolombardoveneto/ch.banana.italia.import.creditolombardoveneto.js
+// @includejs = ../ch.banana.italia.import.creditolombardoveneto.sbaa/import.utilities.js
+// @includejs = ../ch.banana.italia.import.creditolombardoveneto.sbaa/ch.banana.italia.import.creditolombardoveneto.js
 // @timeout = -1
 
 // Register test case to be executed
