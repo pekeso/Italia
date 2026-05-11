@@ -2,11 +2,11 @@
 // @api = 1.0
 // @pubdate = 2026-05-11
 // @publisher = Banana.ch SA
-// @description = Credit Lombardo Veneto - Import account statement .csv (Banana+ Advanced)
-// @description.en = Credit Lombardo Veneto - Import account statement .csv (Banana+ Advanced)
-// @description.de = Credit Lombardo Veneto - Bewegungen importieren .csv (Banana+ Advanced)
-// @description.fr = Credit Lombardo Veneto - Importer mouvements .csv (Banana+ Advanced)
-// @description.it = Credit Lombardo Veneto - Importa movimenti .csv (Banana+ Advanced)
+// @description = Credito Lombardo Veneto - Import account statement .csv (Banana+ Advanced)
+// @description.en = Credito Lombardo Veneto - Import account statement .csv (Banana+ Advanced)
+// @description.de = Credito Lombardo Veneto - Bewegungen importieren .csv (Banana+ Advanced)
+// @description.fr = Credito Lombardo Veneto - Importer mouvements .csv (Banana+ Advanced)
+// @description.it = Credito Lombardo Veneto - Importa movimenti .csv (Banana+ Advanced)
 // @doctype = *
 // @docproperties =
 // @task = import.transactions
