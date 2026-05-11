@@ -59,7 +59,7 @@ TestImportCreditoLombardoVenetoTrans.prototype.cleanup = function () {
 TestImportCreditoLombardoVenetoTrans.prototype.testImport = function () {
    var fileNameList = [];
 
-   fileNameList.push("file:script/../test/testcases/xls_creditolombardoveneto_example_format1_20260429.csv");
+   fileNameList.push("file:script/../test/testcases/csv_creditolombardoveneto_example_format1_20260429.csv");
 
    var parentLogger = this.testLogger;
    this.progressBar.start(fileNameList.length);
