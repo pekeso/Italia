@@ -1,6 +1,20 @@
+// Copyright [2026] [Banana.ch SA - Lugano Switzerland]
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 // @id = ch.banana.italia.import.creditolombardoveneto
 // @api = 1.0
-// @pubdate = 2026-05-11
+// @pubdate = 2026-05-13
 // @publisher = Banana.ch SA
 // @description = Credito Lombardo Veneto - Import account statement .csv (Banana+ Advanced)
 // @description.en = Credito Lombardo Veneto - Import account statement .csv (Banana+ Advanced)
@@ -12,7 +26,7 @@
 // @task = import.transactions
 // @outputformat = transactions.simple
 // @inputdatasource = openfiledialog
-// @inputencoding = latin1
+// @inputencoding = utf8
 // @inputfilefilter = Text files (*.txt *.csv);;All files (*.*)
 // @inputfilefilter.de = Text (*.txt *.csv);;Alle Dateien (*.*)
 // @inputfilefilter.fr = Texte (*.txt *.csv);;Tous (*.*)
@@ -51,8 +65,17 @@ function exec(inData, isTest) {
  * DATA;VALUTA;DARE;AVERE;DIVISA;DESCRIZIONE_OPERAZIONE;CAUSALE_ABI
  * 29/04/2026;27/04/2026;100,00;;EUR;PAGAMENTO;43
  * 04/05/2026;29/04/2026;41,05;;EUR;PAGAMENTO;43
- * 04/05/2026;prenotata;33,35;;EUR;PRE-ADDEBITO;	
+ * 04/05/2026;prenotata;33,35;;EUR;PRE-ADDEBITO;
+ * 04/05/2026;;;555,39;EUR;Saldo contabile;
+ * 04/05/2026;;;555,39;EUR;Saldo liquido;
+ * 04/05/2026;;;777,04;EUR;Disponibilità al;
  * 
+ * This format contains, in addition to the transactions, balance information such as:
+ * - Accounting balance
+ * - Liquid balance
+ * - Available balance
+ * These entries are identified by the fact that the "VALUTA" field is empty and
+ * are not imported.
  */
 function CreditoLombardoVenetoFormat1() {
 	/** Return true if the transactions match this format */
@@ -144,9 +167,12 @@ function CreditoLombardoVenetoFormat1() {
   
 		for (var i = 0; i < transactionsData.length; i++) {
 		   
-		   if (transactionsData[i]["Date"] && transactionsData[i]["Date"].length >= 10 &&
-			 (transactionsData[i]["Date"].match(/^\d{2}\/\d{2}\/\d{4}$/) || 
-			 transactionsData[i]["Date"].match(/^\d{2}\.\d{2}\.\d{4}$/))) {
+			/** 
+			 * Valid transactions have a date in format "dd/MM/yyyy"
+			 * and a date values that could be too in format "dd/MM/yyyy".
+			 * Entries with no value in DateValue field are not managed as transactions.
+			 */
+		   if (this.isValidDate(transactionsData[i]["Date"]) && transactionsData[i]["DateValue"]) {
 			  transactionsToImport.push(this.mapTransaction(transactionsData[i]));
 		   }
 		}
@@ -163,8 +189,12 @@ function CreditoLombardoVenetoFormat1() {
 	this.mapTransaction = function (transaction) {
 		let mappedLine = [];
 	
-		mappedLine.push(Banana.Converter.toInternalDateFormat(transaction["Date"], "dd.mm.yyyy"));
-		mappedLine.push(Banana.Converter.toInternalDateFormat(transaction["DateValue"] ? transaction["DateValue"] : "", "dd.mm.yyyy"));
+		mappedLine.push(Banana.Converter.toInternalDateFormat(transaction["Date"], "dd/mm/yyyy"));
+		if (this.isValidDate(transaction["DateValue"])){
+			mappedLine.push(Banana.Converter.toInternalDateFormat(transaction["DateValue"], "dd/mm/yyyy"));
+		} else {
+			mappedLine.push("");
+		}		
 		mappedLine.push("");
 		mappedLine.push("");
 		mappedLine.push(transaction["Description"]);		
@@ -173,6 +203,13 @@ function CreditoLombardoVenetoFormat1() {
 		
 
 		return mappedLine;
+	}
+
+	this.isValidDate = function (date) {
+		if (date && date.length >= 10 && date.match(/^\d{2}\/\d{2}\/\d{4}$/))
+			return true;
+		else
+			return false;
 	}
 }
 
