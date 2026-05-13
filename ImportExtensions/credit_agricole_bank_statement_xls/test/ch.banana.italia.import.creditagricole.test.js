@@ -60,6 +60,7 @@ TestImportCreditAgricoleTrans.prototype.testImport = function () {
    var fileNameList = [];
 
    fileNameList.push("file:script/../test/testcases/xls_creditagricole_example_format1_20241230.csv");
+   fileNameList.push("file:script/../test/testcases/csv_creditagricole_example_format2_20260415.csv");
 
    var parentLogger = this.testLogger;
    this.progressBar.start(fileNameList.length);
