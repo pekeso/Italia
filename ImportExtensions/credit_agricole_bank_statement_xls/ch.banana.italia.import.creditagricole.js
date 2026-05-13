@@ -1,6 +1,6 @@
 // @id = ch.banana.italia.import.creditagricole
 // @api = 1.0
-// @pubdate = 2025-01-09
+// @pubdate = 2026-05-13
 // @publisher = Banana.ch SA
 // @description = Credit Agricole - Import account statement .csv (Banana+ Advanced)
 // @description.en = Credit Agricole - Import account statement .csv (Banana+ Advanced)
@@ -12,7 +12,7 @@
 // @task = import.transactions
 // @outputformat = transactions.simple
 // @inputdatasource = openfiledialog
-// @inputencoding = latin1
+// @inputencoding = utf8
 // @inputfilefilter = Text files (*.txt *.csv);;All files (*.*)
 // @inputfilefilter.de = Text (*.txt *.csv);;Alle Dateien (*.*)
 // @inputfilefilter.fr = Texte (*.txt *.csv);;Tous (*.*)
@@ -57,11 +57,11 @@ function exec(inData, isTest) {
 /**
  * Credit Agricole Format 2
  * Example: ca.#20260415
- * "Data Op.";"Data Val.";"Causale";"Descrizione";"Importo";"Divisa"
- * "27/04/2015";"27/04/2015";"PAGAMENTO CCP GO-BANKING";"TESTO";"-953.6";"EUR"
- * "27/04/2015";"27/04/2015";"PAGAMENTO CCP GO-BANKING";"TESTO";"-586.75";"EUR"
- * "27/04/2015";"27/04/2015";"PAGAMENTO CCP GO-BANKING";"TESTO";"289.98";"EUR"
- * "27/04/2015";"27/04/2015";"PAGAMENTO CCP GO-BANKING";"TESTO";"2239.05";"EUR"
+ * Data Op.;Data Val.;Causale;Descrizione;Importo;Divisa
+ * 04/05/2026;01/05/2026;PRELIEVO;PREL. CON CARTA;'-200,00;EUR
+ * 04/05/2026;04/05/2026;PAGAMENTO;ADDEBITO;'-10,00;EUR
+ * 30/04/2026;30/04/2026;GIROCONTO/BONIFICO;PAGAMENTO;530,91;EUR
+ * 30/04/2026;30/04/2026;INTERESSI/COMPETENZE;CANONE MENSILE;'-11,14;EUR
  **/
 function CreditAgricoleFormat2() {
 
@@ -189,8 +189,11 @@ function CreditAgricoleFormat2() {
    }
 
    this.getDescription = function (transaction) {
-      const description = transaction["Description"] + '; ' + transaction["Reason"];
-      return description;
+      if (!transaction) return "";
+      const { "Description": description, "Reason": reason} = transaction;
+      return [description, reason]
+         .filter(value => value && typeof value === "string" && value.trim() !== "")
+         .join(", ");
    }
 }
 
