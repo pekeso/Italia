@@ -16,11 +16,11 @@
 // @api = 1.0
 // @pubdate = 2026-05-15
 // @publisher = Banana.ch SA
-// @description = BPER Banca - Import account statement .xls/.csv (Banana+ Advanced)
-// @description.en = BPER Banca - Import account statement .xls/.csv (Banana+ Advanced)
-// @description.de = BPER Banca - Bewegungen importieren .xls/.csv (Banana+ Advanced)
-// @description.fr = BPER Banca - Importer mouvements .xls/.csv (Banana+ Advanced)
-// @description.it = BPER Banca - Importa movimenti .xls/.csv (Banana+ Advanced)
+// @description = BPER Banca - Import account statement .xls/.xlsx (Banana+ Advanced)
+// @description.en = BPER Banca - Import account statement .xls/.xlsx (Banana+ Advanced)
+// @description.de = BPER Banca - Bewegungen importieren .xls/.xlsx (Banana+ Advanced)
+// @description.fr = BPER Banca - Importer mouvements .xls/.xlsx (Banana+ Advanced)
+// @description.it = BPER Banca - Importa movimenti .xls/.xlsx (Banana+ Advanced)
 // @doctype = *
 // @docproperties =
 // @task = import.transactions
