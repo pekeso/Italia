@@ -141,6 +141,11 @@ var ImportUtilities = class ImportUtilities {
             startLineNumber = 0;
         }
         var headerData = csvFile[startLineNumber];
+
+        if (!headerData || headerData.length < 0) {
+            return [];
+        }
+
         for (var i = 0; i < headerData.length; i++) {
 
             headerData[i] = headerData[i].trim();
